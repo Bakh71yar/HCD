@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GreenTime | Focused Growth</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="/script/greentime.js" defer></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f7f9f7; /* Softest mint tint */
+      }
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid #e2ece4;
+      }
+      .timer-glow {
+        box-shadow: 0 0 50px rgba(75, 99, 82, 0.08);
+      }
+      .btn-sage {
+        background-color: #e8f0e9;
+        color: #4b6352;
+        transition: all 0.2s ease;
+      }
+      .btn-sage:hover {
+        background-color: #d1ddd3;
+        transform: translateY(-1px);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen text-slate-800">
+    <nav
+      class="glass-nav sticky top-0 w-full z-50 px-6 py-4 flex justify-between items-center mb-12"
+    >
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 bg-[#4b6352] rounded-lg"></div>
+        <span class="font-bold tracking-tighter text-lg uppercase"
+          >GreenTime</span
+        >
+      </div>
+
+      <div class="hidden md:flex space-x-1">
+        <a
+          href="garden.html"
+          class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-[#4b6352] hover:bg-white transition-all"
+        >
+          Garden
+        </a>
+        <a
+          href="ai.html"
+          class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-[#4b6352] hover:bg-white transition-all"
+        >
+          AI Helper
+        </a>
+        <a
+          href="https://www.gutenberg.org/"
+          class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-[#4b6352] hover:bg-white transition-all"
+        >
+          Online Books
+        </a>
+      </div>
+
+      <a
+        href="index.html"
+        id="signOutBtn"
+        class="bg-rose-50 text-rose-600 hover:bg-rose-100 px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all"
+      >
+        Sign Out
+      </a>
+    </nav>
+
+    <main
+      class="flex flex-col items-center justify-center max-w-4xl mx-auto px-6"
+    >
+      <div
+        class="bg-white p-12 rounded-[3rem] shadow-xl shadow-emerald-900/5 border border-white flex flex-col items-center w-full max-w-xl"
+      >
+        <div
+          id="timerCircle"
+          class="w-72 h-72 rounded-full bg-[#f0f4f1] border-[12px] border-white timer-glow flex flex-col items-center justify-center relative mb-10 transition-all duration-1000"
+        >
+          <span
+            class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#4b6352] opacity-50 mb-2"
+            >Focus Mode</span
+          >
+          <span
+            id="timerText"
+            class="text-7xl font-light tracking-tighter text-slate-900"
+            >25:00</span
+          >
+        </div>
+
+        <div class="grid grid-cols-4 gap-3 w-full mb-8">
+          <button
+            onclick="setPomodoro(15)"
+            class="btn-sage py-4 rounded-2xl font-bold text-sm"
+          >
+            15m
+          </button>
+          <button
+            onclick="setPomodoro(25)"
+            class="btn-sage py-4 rounded-2xl font-bold text-sm"
+          >
+            25m
+          </button>
+          <button
+            onclick="setPomodoro(50)"
+            class="btn-sage py-4 rounded-2xl font-bold text-sm"
+          >
+            50m
+          </button>
+          <button
+            onclick="setPomodoro(90)"
+            class="btn-sage py-4 rounded-2xl font-bold text-sm"
+          >
+            90m
+          </button>
+        </div>
+
+        <div
+          class="flex items-center gap-3 text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-10"
+        >
+          <span>Breaks:</span>
+          <span class="bg-slate-100 px-2 py-1 rounded">5m</span>
+          <span class="bg-slate-100 px-2 py-1 rounded">10m</span>
+          <span class="bg-slate-100 px-2 py-1 rounded">15m</span>
+        </div>
+
+        <div class="flex space-x-4 w-full">
+          <button
+            id="startBtn"
+            class="flex-1 bg-[#4b6352] hover:bg-[#3d5243] text-white px-8 py-5 rounded-2xl font-bold text-xs uppercase tracking-[0.2em] shadow-lg shadow-emerald-900/20 transition-all active:scale-[0.98]"
+          >
+            Start
+          </button>
+          <button
+            id="stopBtn"
+            class="bg-white border border-slate-200 hover:border-rose-200 hover:text-rose-600 px-8 py-5 rounded-2xl font-bold text-xs uppercase tracking-[0.2em] transition-all active:scale-[0.98]"
+          >
+            Stop
+          </button>
+        </div>
+      </div>
+
+      <p
+        class="mt-12 text-[10px] font-bold text-slate-400 uppercase tracking-[0.4em] text-center"
+      >
+        Neural Stability System &bull; GreenTime v1.2
+      </p>
+    </main>
+  </body>
+</html>

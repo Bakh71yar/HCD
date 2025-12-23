@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canopy - Focus & Grow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Nunito", sans-serif;
+        background-color: #f5faf8;
+        color: #1f3d3d;
+      }
+
+      .timer-circle {
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        border: 12px solid #e0c068;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 2.5rem;
+        box-shadow: 0 0 20px #e0c06850;
+        background-color: #f0f7f5;
+        transition: all 0.5s ease;
+      }
+
+      .timer-options-container {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .timer-option {
+        width: 100px;
+        height: 100px;
+        background-color: #c7e2d8;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .timer-option:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        background-color: #b0d9c5;
+      }
+
+      .timer-option .work-time {
+        font-size: 1.2rem;
+      }
+
+      .timer-option .break-time {
+        font-size: 0.85rem;
+        color: #4c6b61;
+        margin-top: 4px;
+      }
+
+      .sign-buttons {
+        display: flex;
+        gap: 12px;
+      }
+
+      .sign-buttons button {
+        padding: 8px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .sign-in {
+        background: linear-gradient(135deg, #ffd680, #e0c068);
+        color: #1f3d3d;
+      }
+      .sign-in:hover {
+        box-shadow: 0 8px 20px rgba(224, 192, 104, 0.6);
+        transform: translateY(-2px);
+      }
+
+      .sign-up {
+        background: linear-gradient(135deg, #a8d5ba, #c7e2d8);
+        color: #1f3d3d;
+      }
+      .sign-up:hover {
+        box-shadow: 0 8px 20px rgba(167, 213, 186, 0.6);
+        transform: translateY(-2px);
+      }
+
+      .timer-control {
+        margin-top: 20px;
+        display: flex;
+        gap: 12px;
+      }
+
+      .control-btn {
+        padding: 10px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        background-color: #c7e2d8;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+      }
+
+      .control-btn:hover {
+        background-color: #b0d9c5;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <div
+      class="min-h-screen flex flex-col items-center justify-center relative px-4"
+    >
+      <div class="absolute top-4 right-4 sign-buttons">
+        <a
+          href="pages/Signup.html"
+          class="px-4 py-2 bg-[#E0C068] rounded-lg text-[#1F3D3D] hover:bg-[#FFD680] transition"
+        >
+          Sign Up
+        </a>
+        <a
+          href="pages/Login.html"
+          class="px-4 py-2 bg-[#E0C068] rounded-lg text-[#1F3D3D] hover:bg-[#FFD680] transition"
+        >
+          Sign In
+        </a>
+      </div>
+
+      <div class="timer-circle" id="timer">--:--</div>
+
+      <div class="timer-options-container mt-6">
+        <div class="timer-option" onclick="setTimer(15,5)">
+          <div class="work-time">15 min</div>
+          <div class="break-time">5 min</div>
+        </div>
+        <div class="timer-option" onclick="setTimer(25,5)">
+          <div class="work-time">25 min</div>
+          <div class="break-time">5 min</div>
+        </div>
+        <div class="timer-option" onclick="setTimer(50,10)">
+          <div class="work-time">50 min</div>
+          <div class="break-time">10 min</div>
+        </div>
+        <div class="timer-option" onclick="setTimer(90,15)">
+          <div class="work-time">90 min</div>
+          <div class="break-time">15 min</div>
+        </div>
+      </div>
+
+      <div class="timer-control">
+        <button class="control-btn" onclick="startTimer()">Start</button>
+        <button class="control-btn" onclick="stopTimer()">Stop</button>
+      </div>
+    </div>
+
+    <script>
+      const timerEl = document.getElementById("timer");
+      let totalSeconds = 0;
+      let breakSeconds = 0;
+      let timerInterval;
+
+      function updateDisplay() {
+        let mins = Math.floor(totalSeconds / 60);
+        let secs = totalSeconds % 60;
+        timerEl.textContent = `${String(mins).padStart(2, "0")}:${String(
+          secs
+        ).padStart(2, "0")}`;
+      }
+
+      function startTimer() {
+        if (totalSeconds <= 0) return;
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          if (totalSeconds > 0) {
+            totalSeconds--;
+            updateDisplay();
+          } else {
+            clearInterval(timerInterval);
+            alert(`Work complete! Break time: ${breakSeconds} minutes`);
+            timerEl.textContent = "--:--";
+          }
+        }, 1000);
+      }
+
+      function stopTimer() {
+        clearInterval(timerInterval);
+      }
+
+      function setTimer(workMins, breakMins) {
+        clearInterval(timerInterval);
+        totalSeconds = workMins * 60;
+        breakSeconds = breakMins;
+        updateDisplay();
+      }
+    </script>
+  </body>
+</html>
